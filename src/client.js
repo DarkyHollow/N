@@ -11,7 +11,7 @@ const client = new AoiClient({
     token: config.token,
     prefix: [
         config.prefix,
-        '$getGuildVar[prefix]',
+        // '$getGuildVar[prefix]',
         '<@$clientId>'
     ],
     intents: [
@@ -41,7 +41,7 @@ const client = new AoiClient({
 
 new Database(client, {
     url: config.database,
-    tables: ['test'],
+    tables: ['main'],
     debug: config.debug
 });
 

@@ -22,12 +22,12 @@ module.exports = [{
     type: 'djs',
     code: async (d) => {
         const data = d.util.aoiFunc(d);
-        const owner = d.client.application.owner;
+        const owner = (await d.client.application.fetch())?.owner;
         
         if (owner instanceof require('discord.js').Team) {
-            data.result = owner.members.get(d.author.id) ? true : false;
+            data.result = owner?.members?.get(d.author.id) ? true : false;
         } else {
-            data.result = (owner.id === d.author.id);
+            data.result = (owner?.id === d.author.id);
         }
 
         return {
@@ -53,9 +53,7 @@ $onlyIf[$hasPermsInChannel[$channelId;$clientid;viewchannel;sendmessages]==true;
     type: 'aoi.js',
     params: [],
     code: `
-$if[$checkClientOwnerIds==false]
 $onlyIf[$getVar[maintenance]==false;{newEmbed:{description:$nonEscape[$getEmoji[no]]  NouRax currently under maintenance!}{color:Red}}{ephemeral}]
-$endif
 $onlyIf[$hasPermsInChannel[$channelId;$clientid;embedlinks]==true;$nonEscape[$getEmoji[no]]  Umm, this is awkward. I don't have \`EmbedLinks\` permission!{deleteIn:5s}{ephemeral}]
 $onlyIf[$hasPermsInChannel[$channelId;$clientid;viewchannel;sendmessages]==true;]`
 },{
